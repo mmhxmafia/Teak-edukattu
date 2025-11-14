@@ -167,6 +167,20 @@ const Checkout = () => {
     }
   }, [isAuthenticated, customerData, toast]);
   
+  // Watch for cart changes and redirect if it becomes empty during checkout
+  useEffect(() => {
+    if (items.length === 0 && !isProcessing) {
+      toast({
+        title: "Cart is Empty",
+        description: "Your cart is empty. Redirecting to shop...",
+        variant: "default"
+      });
+      setTimeout(() => {
+        navigate('/shop');
+      }, 1500);
+    }
+  }, [items.length, isProcessing, navigate, toast]);
+  
   // If cart is empty, redirect to home
   if (items.length === 0) {
     return (
@@ -255,6 +269,17 @@ const Checkout = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if cart is empty
+    if (items.length === 0) {
+      toast({
+        title: "Cart is Empty",
+        description: "Please add items to your cart before checking out.",
+        variant: "destructive"
+      });
+      navigate('/shop');
+      return;
+    }
     
     // Reset all form errors
     setFormErrors({});
@@ -460,7 +485,7 @@ const Checkout = () => {
 
         toast({
           title: "Order placed successfully!",
-          description: `Order #${orderData.orderNumber} has been created.`,
+          description: `Order #${newOrderData.orderNumber} has been created. Please complete payment.`,
         });
       }
     } catch (error: any) {
