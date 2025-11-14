@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/client/react';
-import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
-import { CREATE_ORDER } from '@/lib/woocommerceMutations';
 import { GET_CUSTOMER_INFO } from '@/lib/orderQueries';
 import { Address, getSavedAddresses, getDefaultAddress } from '@/lib/customerMutations';
 import RazorpayPayment from '@/components/RazorpayPayment';
@@ -66,7 +64,6 @@ const Checkout = () => {
   
   // Form validation errors
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [createOrder] = useMutation(CREATE_ORDER);
   
   // Fetch shipping settings from WordPress
   const { data: shippingData } = useQuery(GET_SHIPPING_SETTINGS);
@@ -387,15 +384,38 @@ const Checkout = () => {
         orderInput.customerId = parseInt(user.id);
       }
       
-      // Create order in WooCommerce
-      const { data } = await createOrder({
-        variables: {
-          input: orderInput,
+      // Create order in WooCommerce via REST API
+      const wpEndpoint = import.meta.env.VITE_GRAPHQL_ENDPOINT.replace('/graphql', '');
+      const orderResponse = await fetch(`${wpEndpoint}/wp-json/wc/v3/orders/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          billing: orderInput.billing,
+          shipping: orderInput.shipping,
+          line_items: lineItems.map(item => ({
+            product_id: item.productId,
+            quantity: item.quantity,
+          })),
+          payment_method: 'razorpay',
+          customer_note: orderInput.customerNote,
+        }),
       });
 
-      if (data?.createOrder?.order) {
-        const order = data.createOrder.order;
+      if (!orderResponse.ok) {
+        const errorData = await orderResponse.json();
+        throw new Error(errorData.message || 'Failed to create order');
+      }
+
+      const orderData = await orderResponse.json();
+
+      if (orderData.success) {
+        const order = {
+          orderNumber: orderData.order_number,
+          databaseId: orderData.order_id,
+          total: orderData.total,
+        };
         const orderDate = new Date().toLocaleDateString('en-US', { 
           year: 'numeric', 
           month: 'long', 
