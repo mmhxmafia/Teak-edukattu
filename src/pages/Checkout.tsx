@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client/react';
+import { gql } from '@apollo/client';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { GET_CUSTOMER_INFO } from '@/lib/orderQueries';
