@@ -437,6 +437,27 @@ const ProductDetail = () => {
                   </Button>
                 </div>
 
+                {/* Refund Policy Notice */}
+                <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 mt-0.5">
+                      <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-sm font-semibold text-amber-900 mb-1">
+                        Refund & Return Policy
+                      </h4>
+                      <p className="text-xs text-amber-800 leading-relaxed">
+                        Once your order is placed, refunds are only available if the product delivered is damaged or defective. 
+                        Claims must be made within <span className="font-semibold">7 days of delivery</span>. 
+                        We ensure the highest quality standards and carefully inspect each piece before shipping.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Dynamic Shipping Info from WooCommerce Settings */}
                 <ShippingInfo 
                   productWeight={product.weight}
