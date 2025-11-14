@@ -1,0 +1,12 @@
+/* Fix for HTML entities in toast messages */
+.toast-message strong {
+  font-weight: 600;
+}
+
+/* Ensure no HTML tags are rendered as text */
+.toast-message code, 
+.toast-message pre,
+.toast-message lt,
+.toast-message gt {
+  display: none;
+}

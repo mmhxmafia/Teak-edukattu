@@ -1,0 +1,164 @@
+{
+  "organization": {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Edakkattu Furniture (Teakacacia LLP)",
+    "url": "https://teakacacia.com",
+    "logo": "https://teakacacia.com/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-XXXXXXXXXX",
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Hindi", "Malayalam"]
+    },
+    "sameAs": [
+      "https://facebook.com/teakacacia",
+      "https://instagram.com/teakacacia",
+      "https://twitter.com/teakacacia"
+    ]
+  },
+  
+  "localBusiness": {
+    "@context": "https://schema.org",
+    "@type": "FurnitureStore",
+    "name": "Edakkattu Furniture (Teakacacia LLP)",
+    "image": "https://teakacacia.com/store-front.jpg",
+    "@id": "https://teakacacia.com",
+    "url": "https://teakacacia.com",
+    "telephone": "+91-XXXXXXXXXX",
+    "priceRange": "₹₹₹",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Main Street",
+      "addressLocality": "Kochi",
+      "addressRegion": "Kerala",
+      "postalCode": "682001",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 9.9312,
+      "longitude": 76.2673
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "10:00",
+        "closes": "19:00"
+      }
+    ]
+  },
+  
+  "product": {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "Teak Wood Coffee Table",
+    "image": "https://teakacacia.com/images/products/teak-coffee-table.jpg",
+    "description": "Handcrafted teak coffee table with intricate carvings and durable finish.",
+    "sku": "TCT-001",
+    "mpn": "925872",
+    "brand": {
+      "@type": "Brand",
+      "name": "Edakkattu Furniture"
+    },
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "4.8",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Priya Sharma"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.7",
+      "reviewCount": "89"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://teakacacia.com/products/teak-coffee-table",
+      "priceCurrency": "INR",
+      "price": "12999",
+      "priceValidUntil": "2024-12-31",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Edakkattu Furniture (Teakacacia LLP)"
+      }
+    }
+  },
+  
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://teakacacia.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Living Room",
+        "item": "https://teakacacia.com/categories/living-room"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Coffee Tables",
+        "item": "https://teakacacia.com/categories/coffee-tables"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Teak Wood Coffee Table",
+        "item": "https://teakacacia.com/products/teak-coffee-table"
+      }
+    ]
+  },
+  
+  "faq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I care for teak furniture?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To care for teak furniture, clean it regularly with a soft cloth and mild soap solution. Apply teak oil once every 3-6 months to maintain its natural luster. Keep it away from direct sunlight and excessive moisture."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer delivery services?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we offer delivery services across India. Delivery is free for orders above ₹25,000 within major cities. For remote locations, additional charges may apply."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is your return policy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer a 7-day return policy for all products. If you're not satisfied with your purchase, you can return it in its original condition for a full refund or exchange."
+        }
+      }
+    ]
+  }
+}

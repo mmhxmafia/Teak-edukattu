@@ -1,0 +1,126 @@
+
+1)
+
+AND ALOS LETS HAVE GOOD 404 PAGE LIEK WHNE USER VISIT NON EXISTING PAGE DIRECT TO HOME AD MAKE IT LOOK GOOD 
+
+
+2)
+
+WHNE THE TOTAL AMOUT SHOWS IT SHOW LIKE HTIS Total
+₹29271.00
+
+WIHTOU ANY COMMA FOR BETETR READBLITY SO HAVE BETETR TOTAL NUMEBR WITH RIGHT COMMA SYSTEM
+
+
+
+3)
+
+WHNE CCUSTOMER IS LOGED IN THEN THE ICON IN NAVBAR SHOULD BE SIGN OUT BUTTON INSTEAD OF THE SAME USER ICON GOT IT 
+
+4)
+
+ NOT SHOW THE ADDED TO CART NOTFICATION WHENAUTO CART OPEN ? WAHT USUGGETS 
+
+
+5)
+
+IN Order Confirmed! PAGE 
+
+Order Summary
+Subtotal₹27,000.00
+Shipping₹111.00
+Tax₹2,160.00
+Total₹29,271.00
+
+
+THE TOTAL  numebr fotn style is differtn for mour otehr total numebr font brig n cosntincy 
+
+
+and alos for in print orderdeatil only have 2  pages no need of 3 rd page which is showing our footer only 1st 2 image 
+
+
+6) user session after apruchase logic 
+
+AUTO-CLEAR CACHE AFTER PURCHASE!
+Yes! That's a perfect solution! After order confirmation, automatically clear the cache so users don't face any GraphQL errors when navigating!
+
+
+7)
+
+for  a user who doesnt cretae acoutn and pruchase with info they fill 
+
+Contact Information Shipping Address
+
+create acocunt anbd make their stsus as logged in autoamticaly  have log in button when click make them log and after log in only conmtinue tomake payemnt 
+
+
+
+8)
+
+
+and for cleint who already have acoount tehir 
+
+Contact Information and Shipping Address infraomtion both should be autofile for mtehir profile wwhich  was aved intialy when they typed htis ifno so netx time purchasing no ened type it aghin it iwll autoamclay there yet they can make change if teh ywnat 
+
+in tehr irpofile also they cna change it ientirely 
+
+IMPLEMENTING SAVED ADDRESS AUTO-FILL
+Perfect! Let me implement:
+
+Save address to user profile after first purchase
+Auto-fill address on next checkout
+Allow editing in profile page
+Allow changes during checkout
+
+
+9)
+
+in Checkout page what if a user wh o lready haev acocut n come have a button  top showing log in to your account to auto fill this and ocntiue to purchase a and if you dont ahve acoocutn fill eblow 
+
+so we rest epple of obth who doenst have acocutng and have aocoutn right in oru chekc out is htsi good or sufgegst anymroe imrpeisve way 
+
+RILLIANT IDEA! LET ME IMPLEMENT IT BETTER!
+Yes! Let me create a smart dual-mode checkout with a clear choice at the top:
+
+🎯 THE PERFECT SOLUTION:
+┌─────────────────────────────────────────────┐
+│  Already have an account?                   │
+│  [Login to Auto-Fill] or [Continue as Guest]│
+└─────────────────────────────────────────────┘
+         ↓                    ↓
+   AUTO-FILLED          MANUAL FILL
+   (Logged in)         (Guest → Account)
+
+whenuser click log in and auto fill then u need to do that no need take to home page in same cart page log in and fill with rpdocut they chose got it is the tah twe wanted and more better right 
+
+
+and alos if a already exiting user fill t in check out and lcic kcreate acocunt contiue  have waringi say the yarleady have acocunt pelase log in 
+
+
+make it logiclay corretc ad imrpeisve 
+
+
+Login modal on checkout page (no redirect)
+Check if email exists before creating account
+Show warning if user already has account
+
+
+10)
+
+in checkout page the nav bar is ocovering the title checkout
+
+
+
+got i all thsi isue fix all imrpsivly .
+
+dothis 
+
+
+11)
+
+All Prices
+
+Price: High to Low
+
+
+fileter in shop page not working 

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Notification - Edakkattu Furniture (Teakacacia LLP) Admin</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .header {
+      background-color: #6366f1;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .footer {
+      background-color: #f5f5f5;
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+    }
+    .button {
+      display: inline-block;
+      background-color: #6366f1;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    .order-info {
+      background-color: #f9f9f9;
+      border-left: 4px solid #6366f1;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .order-summary {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    .order-summary th {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      background-color: #f9f9f9;
+      font-weight: 600;
+    }
+    .order-summary td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .order-total {
+      background-color: #f9f9f9;
+      font-weight: 600;
+    }
+    .text-right {
+      text-align: right;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .address-box {
+      background-color: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: white;
+    }
+    .status-placed {
+      background-color: #4a6741;
+    }
+    .status-processing {
+      background-color: #3b82f6;
+    }
+    .status-shipped {
+      background-color: #f59e0b;
+    }
+    .status-completed {
+      background-color: #10b981;
+    }
+    .status-cancelled {
+      background-color: #ef4444;
+    }
+    .status-refunded {
+      background-color: #8b5cf6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>{{#if status}}Order Status Update: {{status}}{{else}}New Order Received{{/if}}</h1>
+    </div>
+    
+    <div class="content">
+      <p>Hello Admin,</p>
+      
+      {{#if status}}
+      <p>An order has been updated to <strong>{{status}}</strong>.</p>
+      {{else}}
+      <p>A new order has been placed on your website.</p>
+      {{/if}}
+      
+      <div class="order-info">
+        <p><strong>Order Number:</strong> #{{orderNumber}}</p>
+        <p><strong>Order Date:</strong> {{orderDate}}</p>
+        <p>
+          <strong>Status:</strong> 
+          <span class="status-badge {{#if status}}status-{{status}}{{else}}status-placed{{/if}}">
+            {{#if status}}{{status}}{{else}}Placed{{/if}}
+          </span>
+        </p>
+      </div>
+      
+      <h2>Customer Information</h2>
+      <p><strong>Name:</strong> {{customerName}}</p>
+      <p><strong>Email:</strong> {{customerEmail}}</p>
+      <p><strong>Phone:</strong> {{customerPhone}}</p>
+      
+      <div class="address-container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 250px;">
+          <h3>Billing Address</h3>
+          <div class="address-box">
+            {{billingAddress}}
+          </div>
+        </div>
+        
+        <div style="flex: 1; min-width: 250px;">
+          <h3>Shipping Address</h3>
+          <div class="address-box">
+            {{shippingAddress}}
+          </div>
+        </div>
+      </div>
+      
+      <h2>Order Summary</h2>
+      
+      <table class="order-summary">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{quantity}}</td>
+            <td class="text-right">{{price}}</td>
+            <td class="text-right">{{total}}</td>
+          </tr>
+          {{/each}}
+          <tr>
+            <td colspan="3" class="text-right">Subtotal:</td>
+            <td class="text-right">{{subtotal}}</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-right">Shipping:</td>
+            <td class="text-right">{{shipping}}</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-right">Tax:</td>
+            <td class="text-right">{{tax}}</td>
+          </tr>
+          <tr class="order-total">
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">{{total}}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="text-center">
+        <a href="{{adminUrl}}" class="button">View Order in Admin Panel</a>
+      </div>
+      
+      <p>This is an automated notification. Please do not reply to this email.</p>
+    </div>
+    
+    <div class="footer">
+      <p>© {{year}} Edakkattu Furniture (Teakacacia LLP). All rights reserved.</p>
+      <p>Admin Notification System</p>
+    </div>
+  </div>
+</body>
+</html>
