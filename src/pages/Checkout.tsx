@@ -21,7 +21,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { formatIndianNumber } from "@/utils/dataHelpers";
-import { Loader2, CreditCard, Smartphone, CheckCircle2, UserCheck, AlertCircle } from "lucide-react";
+import { Loader2, CreditCard, Smartphone, CheckCircle2, UserCheck, AlertCircle, Trash2 } from "lucide-react";
 import FormError from "@/components/ui/form-error";
 import CountrySelect from "@/components/ui/CountrySelect";
 
@@ -46,7 +46,7 @@ const GET_SHIPPING_SETTINGS = gql`
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, getTotalPrice, clearCart } = useCart();
+  const { items, getTotalPrice, clearCart, updateQuantity, removeItem } = useCart();
   const { user, isAuthenticated, register } = useAuth();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -1029,19 +1029,78 @@ const Checkout = () => {
                   {/* Cart Items */}
                   <div className="space-y-3">
                     {items.map((item) => (
-                      <div key={item.id} className="flex gap-3">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{item.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Qty: {item.quantity}
-                          </p>
+                      <div key={item.id} className="border rounded-lg p-3">
+                        <div className="flex gap-3">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                          <div className="flex-1">
+                            <p className="font-medium text-sm">{item.name}</p>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              {item.price} each
+                            </p>
+                            
+                            {/* Quantity Controls */}
+                            <div className="flex items-center gap-2 mt-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-7 w-7 p-0"
+                                onClick={() => {
+                                  if (item.quantity > 1) {
+                                    updateQuantity(item.id, item.quantity - 1);
+                                  }
+                                }}
+                                disabled={item.quantity <= 1}
+                              >
+                                -
+                              </Button>
+                              <span className="text-sm font-medium w-8 text-center">
+                                {item.quantity}
+                              </span>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-7 w-7 p-0"
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              >
+                                +
+                              </Button>
+                              
+                              {/* Delete Button */}
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="h-7 px-2 ml-auto text-destructive hover:text-destructive hover:bg-destructive/10"
+                                onClick={() => {
+                                  removeItem(item.id);
+                                  toast({
+                                    title: "Item Removed",
+                                    description: "Redirecting to product page...",
+                                  });
+                                  // Redirect to product page
+                                  setTimeout(() => {
+                                    navigate(`/products/${item.id}`);
+                                  }, 1000);
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                Remove
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                        <p className="font-medium text-sm">{item.price}</p>
+                        <div className="flex justify-between items-center mt-2 pt-2 border-t">
+                          <span className="text-sm text-muted-foreground">Subtotal</span>
+                          <span className="font-medium">
+                            ₹{formatIndianNumber(parseFloat(item.price.replace(/[^0-9.-]+/g, '')) * item.quantity)}
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>
