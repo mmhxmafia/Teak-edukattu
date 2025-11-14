@@ -21,7 +21,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { formatIndianNumber } from "@/utils/dataHelpers";
-import { Loader2, CreditCard, Smartphone, CheckCircle2, UserCheck, AlertCircle, Trash2 } from "lucide-react";
+import { Loader2, CreditCard, Smartphone, CheckCircle2, UserCheck, AlertCircle, Trash2, ShoppingCart } from "lucide-react";
 import FormError from "@/components/ui/form-error";
 import CountrySelect from "@/components/ui/CountrySelect";
 
@@ -46,7 +46,7 @@ const GET_SHIPPING_SETTINGS = gql`
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, getTotalPrice, clearCart, updateQuantity, removeItem } = useCart();
+  const { items, getTotalPrice, clearCart, updateQuantity, removeFromCart } = useCart();
   const { user, isAuthenticated, register } = useAuth();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -168,44 +168,14 @@ const Checkout = () => {
     }
   }, [isAuthenticated, customerData, toast]);
   
-  // Watch for cart changes and redirect if it becomes empty during checkout
+  // Watch for cart changes - if it becomes empty during checkout, just show empty state
+  // No automatic redirect - let user decide what to do
   useEffect(() => {
     if (items.length === 0 && !isProcessing) {
-      toast({
-        title: "Cart is Empty",
-        description: "Your cart is empty. Redirecting to shop...",
-        variant: "default"
-      });
-      // Immediate redirect to prevent rendering errors
-      const timer = setTimeout(() => {
-        navigate('/shop');
-      }, 1000);
-      return () => clearTimeout(timer);
+      // Just log it - the component will show empty cart UI
+      console.log('Cart is now empty');
     }
-  }, [items.length, isProcessing, navigate, toast]);
-  
-  // Early return if cart is empty to prevent calculation errors
-  if (items.length === 0) {
-    return (
-      <div className="min-h-screen">
-        <Navigation />
-        <main className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <h1 className="heading-font text-4xl font-medium text-foreground mb-4">
-              Your Cart is Empty
-            </h1>
-            <p className="text-muted-foreground mb-8">
-              Add some items to your cart before checking out.
-            </p>
-            <Button onClick={() => navigate('/')}>
-              Continue Shopping
-            </Button>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  }, [items.length, isProcessing]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -578,6 +548,39 @@ const Checkout = () => {
   const tax = totalPrice * taxRate;
   
   const finalTotal = totalPrice + shippingCost + tax;
+
+  // Render empty cart state if no items
+  if (items.length === 0) {
+    return (
+      <div className="min-h-screen">
+        <Navigation />
+        <main className="py-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-6">
+              <ShoppingCart className="h-24 w-24 text-muted-foreground/30 mx-auto mb-4" />
+            </div>
+            <h1 className="heading-font text-4xl font-medium text-foreground mb-4">
+              Your Cart is Empty
+            </h1>
+            <p className="text-muted-foreground mb-8 text-lg">
+              Looks like you haven't added any items to your cart yet.
+              <br />
+              Start shopping to find beautiful furniture for your space.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Button size="lg" onClick={() => navigate('/products')}>
+                Browse Products
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => navigate('/')}>
+                Go to Homepage
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -1077,16 +1080,19 @@ const Checkout = () => {
                                 variant="ghost"
                                 size="sm"
                                 className="h-7 px-2 ml-auto text-destructive hover:text-destructive hover:bg-destructive/10"
-                                onClick={() => {
-                                  removeItem(item.id);
+                                onClick={async () => {
+                                  removeFromCart(item.id);
+                                  
+                                  // Clear cache when removing from checkout
+                                  await clearCacheAfterOrder();
+                                  
                                   toast({
                                     title: "Item Removed",
-                                    description: "Redirecting to product page...",
+                                    description: "Item has been removed from your cart",
                                   });
-                                  // Redirect to product page
-                                  setTimeout(() => {
-                                    navigate(`/products/${item.id}`);
-                                  }, 1000);
+                                  
+                                  // If cart becomes empty, the component will show empty state
+                                  // No redirect - cleaner UX
                                 }}
                               >
                                 <Trash2 className="h-4 w-4 mr-1" />

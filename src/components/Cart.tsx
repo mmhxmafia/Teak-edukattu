@@ -1,6 +1,7 @@
-import { ShoppingCart, X, Plus, Minus } from "lucide-react";
+import { ShoppingCart, X, Plus, Minus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,6 +16,7 @@ import { formatIndianNumber } from "@/utils/dataHelpers";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { items, removeFromCart, updateQuantity, getTotalItems, getTotalPrice, isCartOpen, openCart, closeCart } = useCart();
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
@@ -76,7 +78,12 @@ const Cart = () => {
                           variant="outline"
                           size="icon"
                           className="h-7 w-7"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() => {
+                            if (item.quantity > 1) {
+                              updateQuantity(item.id, item.quantity - 1);
+                            }
+                          }}
+                          disabled={item.quantity <= 1}
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
@@ -92,15 +99,24 @@ const Cart = () => {
                           <Plus className="h-3 w-3" />
                         </Button>
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="mt-2 h-7 px-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        onClick={() => {
+                          removeFromCart(item.id);
+                          toast({
+                            title: "Item Removed",
+                            description: "Item removed from cart",
+                          });
+                          // Cart will show empty state if this was the last item
+                          // No redirect - user stays in cart sidebar
+                        }}
+                      >
+                        <Trash2 className="h-3 w-3 mr-1" />
+                        Remove
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
                   </div>
                 ))}
               </div>
