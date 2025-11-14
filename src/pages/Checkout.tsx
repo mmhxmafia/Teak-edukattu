@@ -550,14 +550,14 @@ const Checkout = () => {
       
       <main className="pt-safe pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="heading-font text-4xl font-medium text-foreground mb-2">
+          <h1 className="heading-font text-3xl sm:text-4xl font-medium text-foreground mb-2">
             Checkout
           </h1>
-          <p className="text-muted-foreground mb-12">
+          <p className="text-muted-foreground mb-8 sm:mb-12">
             Complete your order
           </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             {/* Checkout Form */}
             <div className="lg:col-span-2">
               {/* Login Option for Returning Customers */}
@@ -970,14 +970,17 @@ const Checkout = () => {
                   </Card>
                 )}
 
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full"
-                  disabled={isProcessing || (createAccount && password.length < 8)}
-                >
-                  {isProcessing ? "Processing..." : "Place Order"}
-                </Button>
+                {/* Place Order Button - Hidden when Razorpay modal is open */}
+                {!orderData && (
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="w-full"
+                    disabled={isProcessing || (createAccount && password.length < 8)}
+                  >
+                    {isProcessing ? "Processing..." : "Place Order"}
+                  </Button>
+                )}
               </form>
             </div>
 
