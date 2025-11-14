@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client/react';
 import { gql } from '@apollo/client';
+import { clearCacheAfterAuth } from '@/lib/cacheManager';
 
 interface User {
   id: string;
@@ -174,11 +175,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
+    
+    // Clear Apollo cache after logout
+    await clearCacheAfterAuth();
   };
 
   return (

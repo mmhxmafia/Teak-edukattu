@@ -6,6 +6,7 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { GET_CUSTOMER_INFO } from '@/lib/orderQueries';
 import { Address, getSavedAddresses, getDefaultAddress } from '@/lib/customerMutations';
+import { clearCacheAfterOrder } from '@/lib/cacheManager';
 import RazorpayPayment from '@/components/RazorpayPayment';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -175,13 +176,15 @@ const Checkout = () => {
         description: "Your cart is empty. Redirecting to shop...",
         variant: "default"
       });
-      setTimeout(() => {
+      // Immediate redirect to prevent rendering errors
+      const timer = setTimeout(() => {
         navigate('/shop');
-      }, 1500);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [items.length, isProcessing, navigate, toast]);
   
-  // If cart is empty, redirect to home
+  // Early return if cart is empty to prevent calculation errors
   if (items.length === 0) {
     return (
       <div className="min-h-screen">
@@ -222,13 +225,19 @@ const Checkout = () => {
   };
 
   // Handle payment success from Razorpay
-  const handlePaymentSuccess = (paymentId: string, orderId: string, signature: string) => {
+  const handlePaymentSuccess = async (paymentId: string, orderId: string, signature: string) => {
     setPaymentStatus('success');
     setPaymentDetails({
       paymentId,
       orderId,
       signature
     });
+    
+    // Clear Apollo cache to ensure fresh data
+    await clearCacheAfterOrder();
+    
+    // Clear cart
+    clearCart();
     
     // Update the order with payment details
     // This would typically call an API to update the order status
@@ -516,7 +525,8 @@ const Checkout = () => {
     }
   };
 
-  const totalPrice = getTotalPrice();
+  // Safe calculation with fallback for empty cart
+  const totalPrice = items.length > 0 ? getTotalPrice() : 0;
   
   // Calculate shipping dynamically from WordPress settings
   let shippingCost = 0;
