@@ -9,12 +9,10 @@
  * Usage: node generate-sitemap.js
  */
 
-const fs = require('fs');
-const path = require('path');
-const { gql } = require('@apollo/client/core');
-const { ApolloClient, InMemoryCache, HttpLink } = require('@apollo/client/core');
-const fetch = require('cross-fetch');
-require('dotenv').config();
+import fs from 'fs';
+import path from 'path';
+import { gql, ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core/index.js';
+import fetch from 'cross-fetch';
 
 // Create Apollo Client
 const client = new ApolloClient({
